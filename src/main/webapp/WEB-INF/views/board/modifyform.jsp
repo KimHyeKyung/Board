@@ -44,7 +44,7 @@
 
 <section id = "writeForm">
 <h2>게시판글수정</h2>
-<form action="boardmodify" method="post" name = "modifyform">
+<form action="./boardmodify" method="post" name = "modifyform">
 <input type = "hidden" name = "board_num" value = "${article.board_num}"/>
 <table>
 	<tr>

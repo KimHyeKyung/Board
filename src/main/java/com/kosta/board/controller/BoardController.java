@@ -143,7 +143,7 @@ public class BoardController {
 		try {
 			boardService.modifyBoard(board);
 			mav.addObject("board_num", board.getBoard_num());
-			mav.setViewName("redirect:/board/boarddetail");
+			mav.setViewName("redirect:/boarddetail");
 		} catch (Exception e) {
 			e.printStackTrace();
 			mav.addObject("err", "조회 실패");
