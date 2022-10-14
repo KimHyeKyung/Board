@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.board">
+
+	<insert id="insertBoard" parameterType="com.kosta.board.bean.Board">
+	<![CDATA[
+		insert into board(	 board_num
+							,board_name
+							,board_pass
+							,board_subject
+							,board_content
+							,board_file
+							,board_re_ref
+							,board_re_lev
+							,board_re_seq
+							,board_readcount
+							,board_date)
+		values(	 #{board_num}
+				,#{board_name}
+				,#{board_pass}
+				,#{board_subject}
+				,#{board_content}
+				,#{board_file, jdbcType=VARCHAR}
+				,#{board_re_ref}
+				,#{board_re_lev}
+				,#{board_re_seq}
+				,#{board_readcount}
+				,sysdate
+		)
+	]]>
+	</insert>
+	
+	<select id="selectMaxBoardNum" resultType="Integer">
+	<![CDATA[
+		select max(board_num) from board
+	]]>
+	</select>
+
+	<select id="selectBoardList" resultType="com.kosta.board.bean.Board" parameterType="Integer">
+	<![CDATA[
+		select	 board_num
+				,board_name
+				,board_pass
+				,board_subject
+				,board_content
+				,board_file
+				,board_re_ref
+				,board_re_lev
+				,board_re_seq
+				,board_readcount
+				,board_date
+		from (	select	row_number() over (order by board_re_ref desc, board_re_seq asc) num
+					  	,B.*
+				from board B
+				order by board_re_ref desc, board_re_seq asc)
+		where num between #{row} and #{row}+9
+	]]>
+	</select>
+
+	<select id="selectBoardCount" resultType="Integer">
+	<![CDATA[
+		select count(*) from board
+	]]>
+	</select>
+
+	<select id="selectBoard" resultType="com.kosta.board.bean.Board" parameterType="Integer">
+	<![CDATA[
+		select * from board where board_num = #{board_num} 
+	]]>
+	</select>
+	
+	<update id="updateBoard" parameterType="com.kosta.board.bean.Board">
+	<![CDATA[
+		update board
+		set  board_subject = #{board_subject}
+			,board_content = #{board_content}
+		where board_num = #{board_num}
+	]]>
+	</update>
+	
+</mapper>
