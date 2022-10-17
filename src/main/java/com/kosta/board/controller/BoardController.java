@@ -151,4 +151,77 @@ public class BoardController {
 		}
 		return mav;
 	}
+	
+	//답변 페이지로 이동
+	@RequestMapping(value = "replyform", method = RequestMethod.GET)
+	public ModelAndView replyform(@RequestParam("board_num")Integer boardNum,
+								  @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
+		//페이지 정보를 답변을 누를때 가져가야한다.(원글에 대한 번호(답글을 달 때 re_ref로 가져가기 위해서), 몇번째 페이지인지)
+		ModelAndView mav = new ModelAndView();
+		try {
+			mav.addObject("boardNum", boardNum);
+			mav.addObject("page", page);
+			mav.setViewName("/board/replyform");
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "조회 실패");
+			mav.setViewName("/board/err");
+		}
+		return mav;
+	}
+	
+	//답변 등록
+	@RequestMapping(value = "/boardreply", method = RequestMethod.POST)
+	public ModelAndView boardreply(@ModelAttribute Board board,
+								   @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			boardService.boardReply(board);
+			mav.addObject("page", page);
+			mav.setViewName("redirect:/boardList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "조회 실패");
+			mav.setViewName("/board/err");
+		}
+		return mav;
+	}
+	
+	//삭제페이지 이동
+	@RequestMapping(value = "/deleteform", method = RequestMethod.GET)
+	public ModelAndView deleteform(@RequestParam("board_num") Integer boardNum,
+								   @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			mav.addObject("board_num", boardNum);
+			mav.addObject("page", page);
+			mav.setViewName("/board/deleteform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "조회 실패");
+			mav.setViewName("/board/err");
+		}
+		return mav;
+	}
+	
+	//삭제 수행
+	@RequestMapping(value = "/boarddelete", method = RequestMethod.POST)
+	public ModelAndView boarddelete(@RequestParam("board_num") Integer boardNum,
+								    @RequestParam(value = "page", required=false,defaultValue="1") Integer page,
+								    @RequestParam("board_pass") String password) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			boardService.deleteform(boardNum,password);
+			mav.addObject("page", page);
+			mav.setViewName("redirect:/boardList");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "삭제 실패");
+			mav.setViewName("/board/err");
+		}
+		return mav;
+	}
+		
+	
 }

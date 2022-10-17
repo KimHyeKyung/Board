@@ -48,4 +48,14 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.update("mapper.board.updateBoard", board);
 	}
 
+	@Override
+	public void updateBoardReSeq(Board board) throws Exception {
+		sqlSession.update("mapper.board.updateBoardReSeq", board);
+	}
+
+	@Override
+	public void deleteBoard(Integer boardNum) throws Exception {
+		sqlSession.delete("mapper.board.deleteBoard", boardNum);
+	}
+
 }

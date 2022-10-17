@@ -20,4 +20,8 @@ public interface BoardDAO {
 	Board selectBoard(Integer board_num) throws Exception;
 	
 	void updateBoard(Board board) throws Exception;
+	
+	void updateBoardReSeq(Board board) throws Exception;
+
+	void deleteBoard(Integer boardNum) throws Exception;
 }

@@ -79,4 +79,19 @@
 	]]>
 	</update>
 	
+	<update id="updateBoardReSeq" parameterType="com.kosta.board.bean.Board">
+	<![CDATA[
+		update board
+		set board_re_seq = board_re_seq +1
+		where board_re_ref = #{board_re_ref}
+		and board_re_seq > #{board_re_seq}
+	]]>
+	</update>
+	
+	<delete id="deleteBoard" parameterType="Integer">
+	<![CDATA[
+		delete from board
+		where board_num = #{boardNum}
+	]]>
+	</delete>
 </mapper>

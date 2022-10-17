@@ -32,6 +32,7 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
+	//페이징
 	@Override
 	public List<Board> getBoardList(int page, PageInfo pageInfo) throws Exception {
 		int listCount = boardDAO.selectBoardCount();		//전체 게시글 수
@@ -67,6 +68,33 @@ public class BoardServiceImpl implements BoardService {
 			throw new Exception("수정권한없음");
 		}
 		boardDAO.updateBoard(board);
+	}
+
+	//답변 등록
+	//파라미터로 가져 온 board번호는 부모(원본 글)꺼, 나머지는 내 댓글꺼
+	@Override
+	public void boardReply(Board board) throws Exception {
+		Board srcBoard = getBoard(board.getBoard_num());		//원본 글 정보를 가져옴
+		boardDAO.updateBoardReSeq(srcBoard);
+		Integer boardNum = boardDAO.selectMaxBoardNum() + 1;
+		board.setBoard_num(boardNum);
+		board.setBoard_re_ref(srcBoard.getBoard_re_ref()); 		//re_ref는 원글의 번호를 가져간다.
+		board.setBoard_re_lev(srcBoard.getBoard_re_lev() + 1);	//댓글이니 부모보다 + 1 해준다.
+		board.setBoard_re_seq(srcBoard.getBoard_re_seq() + 1);
+		boardDAO.insertBoard(board);
+	}
+
+	//삭제 수행
+	@Override
+	public void deleteform(Integer boardNum, String password) throws Exception {
+		//비밀번호 비교
+		Board board = getBoard(boardNum);
+		if(!board.getBoard_pass().equals(password)) {
+			throw new Exception("삭제 권한 없음");
+		}else {
+			boardDAO.deleteBoard(boardNum);
+		}
+		
 	}
 
 }

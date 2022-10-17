@@ -17,8 +17,9 @@
 </head>
 <body>
 <section id = "passForm">
-<form name="deleteForm" action="boarddelete?board_num=${board_num}" method="post">
-<input type = "hidden" name = "page" value = '${page }'/>
+<form name="deleteForm" action="boarddelete" method="post">
+<input type = "hidden" name = "page" value = '${page}'/>
+<input type = "hidden" name = "board_num" value = '${board_num}'/>
 <table>
 <tr>
 	<td>
