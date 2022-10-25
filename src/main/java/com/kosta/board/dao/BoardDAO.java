@@ -6,13 +6,13 @@ import com.kosta.board.bean.Board;
 
 public interface BoardDAO {
 
-	//°Ô½Ã±Û insert
+	//ê²Œì‹œê¸€ insert
 	void insertBoard(Board board) throws Exception;
 	
-	//maxNum°¡Á®¿À±â
+	//maxNumê°€ì ¸ì˜¤ê¸°
 	Integer selectMaxBoardNum() throws Exception;
 	
-	//page¸ñ·Ï°¡Á®¿À±â
+	//pageëª©ë¡ê°€ì ¸ì˜¤ê¸°
 	List<Board> selectBoardList(Integer row) throws Exception;
 	
 	Integer selectBoardCount() throws Exception;

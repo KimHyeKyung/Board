@@ -32,17 +32,17 @@ public class BoardController {
 		return "/board/writeform";
 	}
 	
-	//2.¿äÁò¹æ½Ä
+	//2.ìš”ì¦˜ë°©ì‹
 	@RequestMapping(value = "/boardwrite",method = RequestMethod.POST)
 	public ModelAndView boardwrite(@ModelAttribute Board board) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			String path = servletContext.getRealPath("/upload/");//getRealPath: webappÀÇ ½ÇÁ¦°æ·Î¸¦ ¾ò¾î¿È.
-			MultipartFile file = board.getFile(); //ÆÄÀÏ ÀÚÃ¼¸¦ °¡Á®¿È
+			String path = servletContext.getRealPath("/upload/");//getRealPath: webappì˜ ì‹¤ì œê²½ë¡œë¥¼ ì–»ì–´ì˜´.
+			MultipartFile file = board.getFile(); //íŒŒì¼ ìì²´ë¥¼ ê°€ì ¸ì˜´
 			if(!file.isEmpty()) {
-				File destFile = new File(path + file.getOriginalFilename());//fileÀ» destFile·Î ¿Å°Ü¶ó.
+				File destFile = new File(path + file.getOriginalFilename());//fileì„ destFileë¡œ ì˜®ê²¨ë¼.
 				file.transferTo(destFile);
-				board.setBoard_file(file.getOriginalFilename());//ÆÄÀÏÀÇ ÀÌ¸§À» ³Ö¾îÁÖ±âÀ§ÇØ µû·Î ¼³Á¤
+				board.setBoard_file(file.getOriginalFilename());//íŒŒì¼ì˜ ì´ë¦„ì„ ë„£ì–´ì£¼ê¸°ìœ„í•´ ë”°ë¡œ ì„¤ì •
 			}
 			boardService.registBoard(board);
 			mav.setViewName("redirect:/boardList");
@@ -53,18 +53,18 @@ public class BoardController {
 		return mav;
 	}
 	
-	//1.¿¹Àü¹æ½Ä enctype="multipart/form-data"¸¦ ¹ŞÀ»¶§´Â ²À MultipartRequestÇüÅÂ·Î ¹Ş´Â´Ù
+	//1.ì˜ˆì „ë°©ì‹ enctype="multipart/form-data"ë¥¼ ë°›ì„ë•ŒëŠ” ê¼­ MultipartRequestí˜•íƒœë¡œ ë°›ëŠ”ë‹¤
 	/*
 	@RequestMapping(value = "/boardwrite",method = RequestMethod.POST)
 	public ModelAndView boardwrite(MultipartHttpServletRequest multi) {
 		ModelAndView mav = new ModelAndView();
-		//getRealPath: webappÀÇ ½ÇÁ¦ °æ·Î¸¦ ¾ò¾î¿Â´Ù.
+		//getRealPath: webappì˜ ì‹¤ì œ ê²½ë¡œë¥¼ ì–»ì–´ì˜¨ë‹¤.
 		String path = servletContext.getRealPath("/upload/");
 		try {
 			Board board = new Board();
 			MultipartFile file = multi.getFile("file");
 			if(!file.isEmpty()) {
-				File destFile = new File(path + file.getOriginalFilename());//fileÀ» destFile·Î ¿Å°Ü¶ó.
+				File destFile = new File(path + file.getOriginalFilename());//fileì„ destFileë¡œ ì˜®ê²¨ë¼.
 				file.transferTo(destFile);
 				board.setBoard_file(file.getOriginalFilename());
 			}
@@ -85,7 +85,7 @@ public class BoardController {
 	}	
 	*/
 	
-	//°Ô½ÃÆÇ ¿äÃ»
+	//ê²Œì‹œíŒ ìš”ì²­
 	@RequestMapping(value = "/boardList",method = {RequestMethod.GET,RequestMethod.POST})
 	public ModelAndView boardList(@RequestParam(value = "page",required = false, defaultValue = "1")Integer page) {
 		ModelAndView mav = new ModelAndView();
@@ -103,7 +103,7 @@ public class BoardController {
 		return mav;
 	}
 	
-	//¼±ÅÃÇÑ °Ô½Ã±ÛÀÇ detail ÆäÀÌÁö
+	//ì„ íƒí•œ ê²Œì‹œê¸€ì˜ detail í˜ì´ì§€
 	@RequestMapping(value = "/boarddetail", method = RequestMethod.GET)
 	public ModelAndView boarddetail(@RequestParam("board_num")Integer boardNum, @RequestParam(value = "page", required=false, defaultValue="1") Integer page) {
 		ModelAndView mav = new ModelAndView();
@@ -119,7 +119,7 @@ public class BoardController {
 		return mav;
 	}
 	
-	//¼öÁ¤ÆäÀÌÁö ÀÌµ¿
+	//ìˆ˜ì •í˜ì´ì§€ ì´ë™
 	@RequestMapping(value = "/modifyform", method = RequestMethod.GET)
 	public ModelAndView modifyform(@RequestParam("board_num")Integer boardNum) {
 		ModelAndView mav = new ModelAndView();
@@ -130,13 +130,13 @@ public class BoardController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "Á¶È¸ ½ÇÆĞ");
+			mav.addObject("err", "ì¡°íšŒ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;
 	}
 	
-	//¼öÁ¤!
+	//ìˆ˜ì •!
 	@RequestMapping(value = "/boardmodify", method = RequestMethod.POST)
 	public ModelAndView boardmodify(@ModelAttribute Board board) {
 		ModelAndView mav = new ModelAndView();
@@ -146,17 +146,17 @@ public class BoardController {
 			mav.setViewName("redirect:/boarddetail");
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "Á¶È¸ ½ÇÆĞ");
+			mav.addObject("err", "ì¡°íšŒ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;
 	}
 	
-	//´äº¯ ÆäÀÌÁö·Î ÀÌµ¿
+	//ë‹µë³€ í˜ì´ì§€ë¡œ ì´ë™
 	@RequestMapping(value = "replyform", method = RequestMethod.GET)
 	public ModelAndView replyform(@RequestParam("board_num")Integer boardNum,
 								  @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
-		//ÆäÀÌÁö Á¤º¸¸¦ ´äº¯À» ´©¸¦¶§ °¡Á®°¡¾ßÇÑ´Ù.(¿ø±Û¿¡ ´ëÇÑ ¹øÈ£(´ä±ÛÀ» ´Ş ¶§ re_ref·Î °¡Á®°¡±â À§ÇØ¼­), ¸î¹øÂ° ÆäÀÌÁöÀÎÁö)
+		//í˜ì´ì§€ ì •ë³´ë¥¼ ë‹µë³€ì„ ëˆ„ë¥¼ë•Œ ê°€ì ¸ê°€ì•¼í•œë‹¤.(ì›ê¸€ì— ëŒ€í•œ ë²ˆí˜¸(ë‹µê¸€ì„ ë‹¬ ë•Œ re_refë¡œ ê°€ì ¸ê°€ê¸° ìœ„í•´ì„œ), ëª‡ë²ˆì§¸ í˜ì´ì§€ì¸ì§€)
 		ModelAndView mav = new ModelAndView();
 		try {
 			mav.addObject("boardNum", boardNum);
@@ -165,13 +165,13 @@ public class BoardController {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "Á¶È¸ ½ÇÆĞ");
+			mav.addObject("err", "ì¡°íšŒ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;
 	}
 	
-	//´äº¯ µî·Ï
+	//ë‹µë³€ ë“±ë¡
 	@RequestMapping(value = "/boardreply", method = RequestMethod.POST)
 	public ModelAndView boardreply(@ModelAttribute Board board,
 								   @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
@@ -182,13 +182,13 @@ public class BoardController {
 			mav.setViewName("redirect:/boardList");
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "Á¶È¸ ½ÇÆĞ");
+			mav.addObject("err", "ì¡°íšŒ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;
 	}
 	
-	//»èÁ¦ÆäÀÌÁö ÀÌµ¿
+	//ì‚­ì œí˜ì´ì§€ ì´ë™
 	@RequestMapping(value = "/deleteform", method = RequestMethod.GET)
 	public ModelAndView deleteform(@RequestParam("board_num") Integer boardNum,
 								   @RequestParam(value = "page", required=false,defaultValue="1") Integer page) {
@@ -199,13 +199,13 @@ public class BoardController {
 			mav.setViewName("/board/deleteform");
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "Á¶È¸ ½ÇÆĞ");
+			mav.addObject("err", "ì¡°íšŒ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;
 	}
 	
-	//»èÁ¦ ¼öÇà
+	//ì‚­ì œ ìˆ˜í–‰
 	@RequestMapping(value = "/boarddelete", method = RequestMethod.POST)
 	public ModelAndView boarddelete(@RequestParam("board_num") Integer boardNum,
 								    @RequestParam(value = "page", required=false,defaultValue="1") Integer page,
@@ -217,7 +217,7 @@ public class BoardController {
 			mav.setViewName("redirect:/boardList");
 		} catch (Exception e) {
 			e.printStackTrace();
-			mav.addObject("err", "»èÁ¦ ½ÇÆĞ");
+			mav.addObject("err", "ì‚­ì œ ì‹¤íŒ¨");
 			mav.setViewName("/board/err");
 		}
 		return mav;

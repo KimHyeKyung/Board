@@ -2,11 +2,11 @@ package com.kosta.board.bean;
 
 public class PageInfo {
 
-	private int page;		//ÇöÀçÆäÀÌÁö
-	private int maxPage;	//ÀüÃ¼ÆäÀÌÁö(ÀüÃ¼°³¼ö/ÇÑ È­¸é¿¡ ¶ç¿ï ¸®½ºÆ®ÀÇ ¼ö -> 1000°³/10°³ = 100Æä¿¡Áö°¡ ³ª¿Í¾ßÇÔ)
-	private int startPage;	//½ÃÀÛÆäÀÌÁö(Ã³À½¹öÆ°)
-	private int endPage;	//¸¶Áö¸·ÆäÀÌÁö(¸¶Áö¸·¹öÆ°)
-	private int listCount;	//ÀüÃ¼ ¸®½ºÆ®ÀÇ °³¼ö
+	private int page;		//í˜„ì¬í˜ì´ì§€
+	private int maxPage;	//ì „ì²´í˜ì´ì§€(ì „ì²´ê°œìˆ˜/í•œ í™”ë©´ì— ë„ìš¸ ë¦¬ìŠ¤íŠ¸ì˜ ìˆ˜ -> 1000ê°œ/10ê°œ = 100í˜ì—ì§€ê°€ ë‚˜ì™€ì•¼í•¨)
+	private int startPage;	//ì‹œì‘í˜ì´ì§€(ì²˜ìŒë²„íŠ¼)
+	private int endPage;	//ë§ˆì§€ë§‰í˜ì´ì§€(ë§ˆì§€ë§‰ë²„íŠ¼)
+	private int listCount;	//ì „ì²´ ë¦¬ìŠ¤íŠ¸ì˜ ê°œìˆ˜
 	
 	public PageInfo() {
 		super();

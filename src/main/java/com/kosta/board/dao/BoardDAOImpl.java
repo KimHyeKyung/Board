@@ -14,20 +14,20 @@ public class BoardDAOImpl implements BoardDAO {
 	@Autowired
 	SqlSessionTemplate sqlSession;
 
-	//°Ô½Ã±Û insert
+	//ê²Œì‹œê¸€ insert
 	@Override
 	public void insertBoard(Board board) throws Exception {
 		sqlSession.insert("mapper.board.insertBoard", board);
 	}
 
-	//maxNum°¡Á®¿À±â
-	//Integer : nullÇã¿ë
+	//maxNumê°€ì ¸ì˜¤ê¸°
+	//Integer : nullí—ˆìš©
 	@Override
 	public Integer selectMaxBoardNum() throws Exception {
 		return sqlSession.selectOne("mapper.board.selectMaxBoardNum");
 	}
 
-	//page¸ñ·Ï°¡Á®¿À±â
+	//pageëª©ë¡ê°€ì ¸ì˜¤ê¸°
 	@Override
 	public List<Board> selectBoardList(Integer row) throws Exception {
 		return sqlSession.selectList("mapper.board.selectBoardList", row);

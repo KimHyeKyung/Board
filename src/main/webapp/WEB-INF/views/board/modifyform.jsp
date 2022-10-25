@@ -16,7 +16,7 @@
       width: 500px;
       height: 600px;
       border : 1px solid red; 
-      margin:auto; 
+      margin:auto;  
    }   
    h2{
       text-align: center;

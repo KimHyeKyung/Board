@@ -32,13 +32,13 @@ public class BoardServiceImpl implements BoardService {
 		
 	}
 
-	//ÆäÀÌÂ¡
+	//í˜ì´ì§•
 	@Override
 	public List<Board> getBoardList(int page, PageInfo pageInfo) throws Exception {
-		int listCount = boardDAO.selectBoardCount();		//ÀüÃ¼ °Ô½Ã±Û ¼ö
-		int maxPage = (int)Math.ceil((double)listCount/10);	//ÀüÃ¼ ÆäÀÌÁö ¼ö (Math.ceil: ¼Ò¼öÁ¡ ¿Ã¸²Ã³¸®)
-		int startPage = page/10 * 10 + 1;					//ÇöÀç ÆäÀÌÁö¿¡ º¸¿©ÁÙ ½ÃÀÛ ÆäÀÌÁö ¹öÆ°(1,11,21 ...)
-		int endPage = startPage + 10 - 1;					//ÇöÀç ÆäÀÌÁö¿¡ º¸¿©ÁÙ ¸¶Áö¸· ÆäÀÌÁö ¹öÆ°(10,20,30 ...)
+		int listCount = boardDAO.selectBoardCount();		//ì „ì²´ ê²Œì‹œê¸€ ìˆ˜
+		int maxPage = (int)Math.ceil((double)listCount/10);	//ì „ì²´ í˜ì´ì§€ ìˆ˜ (Math.ceil: ì†Œìˆ˜ì  ì˜¬ë¦¼ì²˜ë¦¬)
+		int startPage = page/10 * 10 + 1;					//í˜„ì¬ í˜ì´ì§€ì— ë³´ì—¬ì¤„ ì‹œì‘ í˜ì´ì§€ ë²„íŠ¼(1,11,21 ...)
+		int endPage = startPage + 10 - 1;					//í˜„ì¬ í˜ì´ì§€ì— ë³´ì—¬ì¤„ ë§ˆì§€ë§‰ í˜ì´ì§€ ë²„íŠ¼(10,20,30 ...)
 		if(endPage>maxPage) {
 			endPage = maxPage;
 		}
@@ -59,38 +59,38 @@ public class BoardServiceImpl implements BoardService {
 		return boardDAO.selectBoard(boardNum);
 	}
 
-	//°Ô½Ã±Û ¼öÁ¤
+	//ê²Œì‹œê¸€ ìˆ˜ì •
 	@Override
 	public void modifyBoard(Board board) throws Exception {
-		//¼öÁ¤ Àü ÆĞ½º¿öµå È®ÀÎ
+		//ìˆ˜ì • ì „ íŒ¨ìŠ¤ì›Œë“œ í™•ì¸
 		String password = boardDAO.selectBoard(board.getBoard_num()).getBoard_pass();
 		if(!password.equals(board.getBoard_pass())) {
-			throw new Exception("¼öÁ¤±ÇÇÑ¾øÀ½");
+			throw new Exception("ìˆ˜ì •ê¶Œí•œì—†ìŒ");
 		}
 		boardDAO.updateBoard(board);
 	}
 
-	//´äº¯ µî·Ï
-	//ÆÄ¶ó¹ÌÅÍ·Î °¡Á® ¿Â board¹øÈ£´Â ºÎ¸ğ(¿øº» ±Û)²¨, ³ª¸ÓÁö´Â ³» ´ñ±Û²¨
+	//ë‹µë³€ ë“±ë¡
+	//íŒŒë¼ë¯¸í„°ë¡œ ê°€ì ¸ ì˜¨ boardë²ˆí˜¸ëŠ” ë¶€ëª¨(ì›ë³¸ ê¸€)êº¼, ë‚˜ë¨¸ì§€ëŠ” ë‚´ ëŒ“ê¸€êº¼
 	@Override
 	public void boardReply(Board board) throws Exception {
-		Board srcBoard = getBoard(board.getBoard_num());		//¿øº» ±Û Á¤º¸¸¦ °¡Á®¿È
+		Board srcBoard = getBoard(board.getBoard_num());		//ì›ë³¸ ê¸€ ì •ë³´ë¥¼ ê°€ì ¸ì˜´
 		boardDAO.updateBoardReSeq(srcBoard);
 		Integer boardNum = boardDAO.selectMaxBoardNum() + 1;
 		board.setBoard_num(boardNum);
-		board.setBoard_re_ref(srcBoard.getBoard_re_ref()); 		//re_ref´Â ¿ø±ÛÀÇ ¹øÈ£¸¦ °¡Á®°£´Ù.
-		board.setBoard_re_lev(srcBoard.getBoard_re_lev() + 1);	//´ñ±ÛÀÌ´Ï ºÎ¸ğº¸´Ù + 1 ÇØÁØ´Ù.
+		board.setBoard_re_ref(srcBoard.getBoard_re_ref()); 		//re_refëŠ” ì›ê¸€ì˜ ë²ˆí˜¸ë¥¼ ê°€ì ¸ê°„ë‹¤.
+		board.setBoard_re_lev(srcBoard.getBoard_re_lev() + 1);	//ëŒ“ê¸€ì´ë‹ˆ ë¶€ëª¨ë³´ë‹¤ + 1 í•´ì¤€ë‹¤.
 		board.setBoard_re_seq(srcBoard.getBoard_re_seq() + 1);
 		boardDAO.insertBoard(board);
 	}
 
-	//»èÁ¦ ¼öÇà
+	//ì‚­ì œ ìˆ˜í–‰
 	@Override
 	public void deleteform(Integer boardNum, String password) throws Exception {
-		//ºñ¹Ğ¹øÈ£ ºñ±³
+		//ë¹„ë°€ë²ˆí˜¸ ë¹„êµ
 		Board board = getBoard(boardNum);
 		if(!board.getBoard_pass().equals(password)) {
-			throw new Exception("»èÁ¦ ±ÇÇÑ ¾øÀ½");
+			throw new Exception("ì‚­ì œ ê¶Œí•œ ì—†ìŒ");
 		}else {
 			boardDAO.deleteBoard(boardNum);
 		}
